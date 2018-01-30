@@ -1,0 +1,2 @@
+# OracleSqls
+Helpful Oracle SQLs
