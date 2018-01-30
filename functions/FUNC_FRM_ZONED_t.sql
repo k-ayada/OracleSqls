@@ -1,0 +1,38 @@
+-- @/home/d_keys/krnydc/s/funcs/FUNC_FRM_ZONED_t.sql;
+CREATE OR REPLACE FUNCTION FRM_ZONED_T(P_VAL IN VARCHAR2, P_DEC IN NUMBER DEFAULT 0)
+RETURN NUMBER IS 
+  L_ASCII VARCHAR2(50); 
+  L_CHAR  VARCHAR2(1);
+  L_NUM   NUMBER;
+BEGIN 
+   L_ASCII := UPPER(TRIM(P_VAL));
+   
+   DBMS_OUTPUT.PUT_LINE('L_ASCII: ' || L_ASCII) ;
+   L_CHAR  := SUBSTR(L_ASCII, -1);    
+   DBMS_OUTPUT.PUT_LINE('L_CHAR: ' || L_CHAR) ;
+   CASE                        
+   WHEN INSTR('}JKLMNOPQR-', L_CHAR) > 0 THEN 
+        L_ASCII := TRANSLATE(L_ASCII, '}JKLMNOPQR-','0123456789');     
+        DBMS_OUTPUT.PUT_LINE('-ve L_ASCII: ' || L_ASCII) ;
+        L_NUM   := TO_NUMBER(L_ASCII) * -1;
+        DBMS_OUTPUT.PUT_LINE('-ve L_NUM: ' || L_NUM) ;
+   ELSE 
+        L_ASCII := TRANSLATE(L_ASCII, '{ABCDEFGHI+','0123456789');     
+        DBMS_OUTPUT.PUT_LINE('+ve L_ASCII: ' || L_ASCII) ;        
+        L_NUM   := TO_NUMBER(L_ASCII);
+        DBMS_OUTPUT.PUT_LINE('+ve L_NUM: ' || L_NUM) ;
+   END CASE; 
+   IF P_DEC = 0 THEN 
+      RETURN L_NUM; 
+   END IF; 
+   DBMS_OUTPUT.PUT_LINE('res : ' || (L_NUM / POWER(10,P_DEC) )) ;
+   RETURN (L_NUM / POWER(10,P_DEC) ) ;
+EXCEPTION 
+   WHEN OTHERS THEN 
+        DBMS_OUTPUT.PUT_LINE('FRM_ZONED-Err : ' || SQLERRM) 
+   ;
+END FRM_ZONED_T;
+/   
+
+
+-- select FRM_ZONED_T('1232E', 2) as "123.25" from dual;
