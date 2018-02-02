@@ -1,0 +1,11 @@
+CREATE OR REPLACE PROCEDURE set_seq_to
+(p_Name  IN VARCHAR2,p_val IN NUMBER)
+IS
+v_num  NUMBER;
+BEGIN
+   EXECUTE IMMEDIATE 'SELECT ' || p_Name ||'.NEXTVAL FROM DUAL' INTO v_num;
+   EXECUTE IMMEDIATE 'ALTER SEQUENCE ' || p_Name ||' INCREMENT BY ' ||(p_val - v_num - 1) ;
+   EXECUTE IMMEDIATE 'SELECT ' || p_Name ||'.NEXTVAL FROM DUAL' INTO v_num;
+   EXECUTE IMMEDIATE 'ALTER SEQUENCE '  ||p_Name ||' INCREMENT BY 1 ';
+   DBMS_OUTPUT.Put_Line('Sequence ' ||p_Name ||' IS NOW AT ' ||p_val);
+END;
