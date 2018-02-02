@@ -1,0 +1,45 @@
+select value from v$parameter where name like '%service_name%';
+select sys_context('userenv','service_name') from dual;
+show parameter service;
+SQL> select * from global_name;
+
+GLOBAL_NAME
+--------------------------------------------------------------------------------
+<shoes the service name>
+
+
+
+
+HOST_NAME                                                        INSTANCE_NAME
+---------------------------------------------------------------- ----------------
+<box name>                                                       <instance name>
+
+
+show parameter instance;
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+active_instance_count                integer
+cluster_database_instances           integer     2
+instance_groups                      string
+instance_name                        string      <instance name>
+instance_number                      integer     2
+instance_type                        string      RDBMS
+open_links_per_instance              integer     4
+parallel_instance_group              string
+parallel_server_instances            integer     2
+
+
+
+
+>$ORACLE_HOME/bin/tnsping <instance name>
+
+TNS Ping Utility for Solaris: Version 11.2.0.2.0 - Production on 22-JUL-2016 07:34:58
+
+Copyright (c) 1997, 2010, Oracle.  All rights reserved.
+
+Used parameter files:
+
+
+Used TNSNAMES adapter to resolve the alias
+Attempting to contact (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(PORT = 1521) (HOST = <jdbc_host>)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = <jdbc_service>) (UR=A)))
+OK (0 msec)
